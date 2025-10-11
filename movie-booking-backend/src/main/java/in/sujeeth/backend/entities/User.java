@@ -18,6 +18,12 @@ public class User {
 
     private String name;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+//    TODO: extend this feature, currently hardcoding to USER
+    private String role = "USER";
 }
