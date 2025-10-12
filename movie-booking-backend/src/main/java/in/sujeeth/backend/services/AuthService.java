@@ -5,10 +5,12 @@ import in.sujeeth.backend.dtos.AuthResponse;
 import in.sujeeth.backend.entities.User;
 import in.sujeeth.backend.repositories.UserRepository;
 import in.sujeeth.backend.utils.JwtUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class AuthService {
 
@@ -49,11 +51,8 @@ public class AuthService {
     }
 
     public boolean verifyToken(String token) {
-        try {
-            jwtUtil.extractClaims(token);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        Long userId = jwtUtil.extractUserId(token);
+        log.info("User id: {}", userId);
+        return jwtUtil.verifyToken(token);
     }
 }

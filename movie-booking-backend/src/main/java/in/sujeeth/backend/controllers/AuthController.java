@@ -3,6 +3,7 @@ package in.sujeeth.backend.controllers;
 import in.sujeeth.backend.dtos.AuthRequest;
 import in.sujeeth.backend.dtos.AuthResponse;
 import in.sujeeth.backend.services.AuthService;
+import in.sujeeth.backend.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
