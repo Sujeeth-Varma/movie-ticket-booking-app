@@ -1,13 +1,16 @@
 package in.sujeeth.backend.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "bookings")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Booking {
 
     @Id

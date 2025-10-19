@@ -16,4 +16,6 @@ public interface BookingSeatRepository extends JpaRepository<BookingSeat, Long> 
         WHERE b.show.id = :showId
     """)
     List<Object[]> findSeatIdAndStatusByShowId(@Param("showId") Long showId);
+
+    List<BookingSeat> getByBooking_Id(Long bookingId);
 }

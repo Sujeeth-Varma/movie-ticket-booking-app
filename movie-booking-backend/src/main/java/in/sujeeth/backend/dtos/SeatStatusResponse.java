@@ -1,5 +1,6 @@
 package in.sujeeth.backend.dtos;
 
+import in.sujeeth.backend.entities.BookingSeatStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class SeatStatusResponse {
     private Long seatId;
     private String label;
-    private String status;
+    private BookingSeatStatus status;
     private Integer row;
     private Integer col;
 }

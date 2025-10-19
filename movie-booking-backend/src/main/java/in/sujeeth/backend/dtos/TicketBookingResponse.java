@@ -1,16 +1,23 @@
 package in.sujeeth.backend.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import in.sujeeth.backend.entities.BookingStatus;
+import lombok.*;
+
+import java.sql.Timestamp;
+import java.util.List;
 
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-public class TicketBookingResponse extends TicketBookingRequest {
+@Builder
+public class TicketBookingResponse {
+    private Long bookingId;
+    private BookingStatus bookingStatus;
+    private Timestamp bookedAt;
+    private ShowDto show;
+    private List<String> seats;
+    private double pricePerSeat;
+    private double totalPrice;
     private boolean isSuccess;
-    private String message;
 }
