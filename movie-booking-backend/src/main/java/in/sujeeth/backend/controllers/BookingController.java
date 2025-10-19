@@ -1,6 +1,7 @@
 package in.sujeeth.backend.controllers;
 
 import in.sujeeth.backend.dtos.TicketBookingRequest;
+import in.sujeeth.backend.dtos.TicketBookingResponse;
 import in.sujeeth.backend.repositories.BookingRepository;
 import in.sujeeth.backend.repositories.BookingSeatRepository;
 import in.sujeeth.backend.services.BookingService;
@@ -21,7 +22,7 @@ public class BookingController {
     private UserService userService;
 
     @GetMapping("/user")
-    public ResponseEntity<?> getSeatsByUser(Authentication auth) {
+    public ResponseEntity<?> getAllBookingsByUser(Authentication auth) {
         try {
             var response = bookingService.getBookingsByUser(auth.getName());
             return ResponseEntity.ok(response);
@@ -32,10 +33,21 @@ public class BookingController {
     }
 
     @PostMapping
-    public ResponseEntity<?> holdSeats(@RequestBody TicketBookingRequest ticketRequest, Authentication auth){
+    public ResponseEntity<?> bookSeats(@RequestBody TicketBookingRequest ticketRequest, Authentication auth){
         try {
             var user = userService.getUserByEmail(auth.getName());
             var response = bookingService.bookSeats(user, ticketRequest.getShowId(), ticketRequest.getSeatIds());
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/{bookingId}")
+    public ResponseEntity<?> getBookingDetail(@PathVariable Long bookingId, Authentication auth) {
+        try {
+            TicketBookingResponse response = bookingService.getBookingDetails(bookingId, auth.getName());
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             e.printStackTrace();
