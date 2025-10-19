@@ -18,4 +18,6 @@ public interface BookingSeatRepository extends JpaRepository<BookingSeat, Long> 
     List<Object[]> findSeatIdAndStatusByShowId(@Param("showId") Long showId);
 
     List<BookingSeat> getByBooking_Id(Long bookingId);
+
+    void deleteAllByBooking_Id(Long bookingId);
 }

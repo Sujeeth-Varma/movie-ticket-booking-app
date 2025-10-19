@@ -102,6 +102,22 @@ public class BookingService {
         return bookingShowToResponseMapper(booking, booking.getShow(), labelsOfBookedSeats);
     }
 
+    @Transactional
+    public boolean deleteBookingById(Long bookingId, String userEmail) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new RuntimeException("Booking details with given id: " + bookingId +  " not found"));
+        if (!Objects.equals(booking.getUser().getEmail(), userEmail)) {
+            throw new RuntimeException("You are unauthorized to access this resource");
+        }
+        try {
+            bookingSeatRepository.deleteAllByBooking_Id(booking.getId());
+            bookingRepository.delete(booking);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
+
     public TicketBookingResponse bookingShowToResponseMapper(Booking booking, Show show, List<String> bookedSeatLabels) {
         return TicketBookingResponse.builder()
                 .bookedAt(booking.getBookedAt())

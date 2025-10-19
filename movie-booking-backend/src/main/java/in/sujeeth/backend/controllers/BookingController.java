@@ -54,4 +54,16 @@ public class BookingController {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
+
+    @DeleteMapping("/{bookingId}")
+    public ResponseEntity<?> deleteBooking(@PathVariable Long bookingId, Authentication auth) {
+        try {
+            boolean isDeleted = bookingService.deleteBookingById(bookingId, auth.getName());
+            if (!isDeleted) return ResponseEntity.ok("failed to delete booking try again!");
+            return ResponseEntity.ok("Successfully deleted booking");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
 }
