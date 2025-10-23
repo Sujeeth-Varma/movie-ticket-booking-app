@@ -56,19 +56,11 @@ const Navbar = ({
     { title: "Home", url: "/" },
     {
       title: "Movies",
-      url: "./movies",
+      url: "/movies",
     },
     {
-      title: "Resources",
-      url: "#",
-    },
-    {
-      title: "Pricing",
-      url: "#",
-    },
-    {
-      title: "Blog",
-      url: "#",
+      title: "My Bookings",
+      url: "/bookings",
     },
   ],
   auth = {
@@ -113,12 +105,7 @@ const Navbar = ({
               </Button>
             ) : (
               <>
-                <Button
-                  asChild
-                  variant="outline"
-                  size="sm"
-                  className="border-foreground/90"
-                >
+                <Button asChild variant="outline" size="sm">
                   <a href={auth.login.url}>{auth.login.title}</a>
                 </Button>
                 <Button asChild size="sm">
