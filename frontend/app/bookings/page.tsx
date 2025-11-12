@@ -37,7 +37,7 @@ const MyBookingsPage = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
-  const { isAuthenticated, user } = useAppSelector((s) => s.user);
+  const { isAuthenticated } = useAppSelector((s) => s.user);
 
   const handleDeleteBooking = async (bookingId: number) => {
     try {
@@ -94,7 +94,7 @@ const MyBookingsPage = () => {
     };
 
     fetchBookings();
-  }, []);
+  }, [isAuthenticated]);
 
   if (!isAuthenticated) {
     return (
