@@ -32,13 +32,17 @@ const Page = () => {
               </p>
             </div>
             <div className="mt-6 flex justify-center gap-3">
-              <Button className="shadow-sm transition-shadow hover:shadow">
-                <Link href={"/movies"}>Book Tickets</Link>
-              </Button>
-              <Button variant="outline" className="group">
-                <Link href={"/movies"}>Movies</Link>
-                <ExternalLink className="ml-2 h-4 transition-transform group-hover:translate-x-0.5" />
-              </Button>
+              <Link href={"/movies"} className="cursor-pointer">
+                <Button className="shadow-sm transition-shadow hover:shadow">
+                  Book Tickets
+                </Button>
+              </Link>
+              <Link href={"/movies"} className="cursor-pointer">
+                <Button variant="outline" className="group">
+                  Movies
+                  <ExternalLink className="ml-2 h-4 transition-transform group-hover:translate-x-0.5" />
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

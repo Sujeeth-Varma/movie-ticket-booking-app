@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useAppSelector } from "@/lib/redux/hooks";
 
 interface Booking {
   bookingId: number;
@@ -36,6 +37,8 @@ const MyBookingsPage = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
+  const { isAuthenticated, user } = useAppSelector((s) => s.user);
+
   const handleDeleteBooking = async (bookingId: number) => {
     try {
       setDeleting(true);
@@ -57,12 +60,14 @@ const MyBookingsPage = () => {
 
   const handleViewBooking = async (bookingId: number) => {
     try {
-      const res = await axios.get(
-        `http://localhost:8080/api/v1/booking/${bookingId}`
-      );
-      if (res.data.success) {
-        setSelectedBooking(res.data);
-        setDialogOpen(true);
+      if (isAuthenticated) {
+        const res = await axios.get(
+          `http://localhost:8080/api/v1/booking/${bookingId}`
+        );
+        if (res.data.success) {
+          setSelectedBooking(res.data);
+          setDialogOpen(true);
+        }
       }
     } catch (err) {
       console.error(err);
@@ -74,10 +79,12 @@ const MyBookingsPage = () => {
     const fetchBookings = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(
-          "http://localhost:8080/api/v1/booking/user"
-        );
-        setBookings(res.data);
+        if (isAuthenticated) {
+          const res = await axios.get(
+            "http://localhost:8080/api/v1/booking/user"
+          );
+          setBookings(res.data);
+        }
       } catch (err) {
         console.error(err);
         setError("Failed to load bookings");
@@ -88,6 +95,17 @@ const MyBookingsPage = () => {
 
     fetchBookings();
   }, []);
+
+  if (!isAuthenticated) {
+    return (
+      <div className="p-6 container mx-auto pt-20">
+        <h1 className="text-2xl font-semibold mb-4">My Bookings</h1>
+        <div className="text-muted-foreground">
+          Please log in to view your bookings.
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 container mx-auto pt-20">

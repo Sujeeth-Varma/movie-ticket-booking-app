@@ -18,14 +18,17 @@ import {
 const MoviesPage = () => {
   const dispatch = useAppDispatch();
   const { items, loading, error } = useAppSelector((s) => s.movies);
+  const { isAuthenticated } = useAppSelector((s) => s.user);
   const router = useRouter();
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedMovieId, setSelectedMovieId] = useState<number | null>(null);
 
   useEffect(() => {
-    dispatch(fetchMovies());
-  }, [dispatch]);
+    if (isAuthenticated) {
+      dispatch(fetchMovies());
+    }
+  }, [dispatch, isAuthenticated]);
 
   const selectedMovie = items.find((m) => m.id === selectedMovieId) ?? null;
 
@@ -57,6 +60,17 @@ const MoviesPage = () => {
       router.push(`/movies/${showId}/show`);
     }
   };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="p-6 container mx-auto pt-20">
+        <h1 className="text-2xl font-semibold mb-4">My Bookings</h1>
+        <div className="text-muted-foreground">
+          Please log in to view your bookings.
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 container mx-auto pt-20">
