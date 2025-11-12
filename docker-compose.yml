@@ -1,0 +1,52 @@
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: movie_db
+    environment:
+      POSTGRES_DB: movie_booking
+      POSTGRES_USER: movie_user
+      POSTGRES_PASSWORD: movie_pass
+    ports:
+      - "5432:5432"
+    networks:
+      - movie-network
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./movie-booking-backend
+      dockerfile: Dockerfile
+    container_name: movie_backend
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/movie_booking
+      SPRING_DATASOURCE_USERNAME: movie_user
+      SPRING_DATASOURCE_PASSWORD: movie_pass
+    ports:
+      - "8080:8080"
+    networks:
+      - movie-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: movie_frontend
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_API_BASE: http://localhost:8080
+    ports:
+      - "3000:3000"
+    networks:
+      - movie-network
+
+volumes:
+  db_data:
+
+networks:
+  movie-network:
+    driver: bridge
